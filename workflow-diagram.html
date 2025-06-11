@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoTogather App Workflow</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .workflow-section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .legend {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .legend h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+        .client { background: #e3f2fd; }
+        .server { background: #fff3e0; }
+        .database { background: #f3e5f5; }
+        .external { background: #e8f5e8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 DoTogather App Complete Workflow</h1>
+        
+        <div class="workflow-section">
+            <h2 class="section-title">📱 Main Application Flow</h2>
+            <div class="mermaid">
+                graph TD
+                    A[App Launch] --> B{User Authenticated?}
+                    B -->|No| C[Login Screen]
+                    B -->|Yes| D[Home Screen]
+                    
+                    C --> E[Enter Credentials]
+                    E --> F[POST /api/auth/login]
+                    F --> G{Login Success?}
+                    G -->|Yes| H[Store JWT Token]
+                    G -->|No| I[Show Error Message]
+                    I --> C
+                    H --> D
+                    
+                    D --> J[Bottom Navigation]
+                    J --> K[Home Tab]
+                    J --> L[Tasks Tab]
+                    J --> M[Explore Tab]
+                    J --> N[Profile Tab]
+                    
+                    style A fill:#e3f2fd
+                    style C fill:#e3f2fd
+                    style D fill:#e3f2fd
+                    style F fill:#fff3e0
+                    style H fill:#f3e5f5
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="section-title">🏠 Home Screen Workflow</h2>
+            <div class="mermaid">
+                graph TD
+                    A[Home Screen Load] --> B[GET /api/user/stats]
+                    B --> C[Display Stats Cards]
+                    C --> D[Today's Tasks: 3/4]
+                    C --> E[Current Streak: 0]
+                    C --> F[Total Points: 20]
+                    
+                    A --> G[GET /api/tasks/today]
+                    G --> H[Display Task List]
+                    
+                    A --> I[Voice Button Click]
+                    I --> J[Initialize Web Speech API]
+                    J --> K[Listen for 'Hey DoTogather']
+                    K --> L[Voice Command Processing]
+                    
+                    H --> M[Task Completion Toggle]
+                    M --> N[PUT /api/tasks/:id/complete]
+                    N --> O[Update Local State]
+                    O --> P[Refresh Stats]
+                    
+                    A --> Q[Quick Actions]
+                    Q --> R[Add Task Button]
+                    Q --> S[View Reports Button]
+                    Q --> T[View Badges Button]
+                    
+                    style A fill:#e3f2fd
+                    style B fill:#fff3e0
+                    style G fill:#fff3e0
+                    style J fill:#e8f5e8
+                    style N fill:#fff3e0
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="section-title">✅ Tasks Screen Workflow</h2>
+            <div class="mermaid">
+                graph TD
+                    A[Tasks Screen Load] --> B[GET /api/tasks]
+                    B --> C[Display All Tasks]
+                    
+                    A --> D[Search Input]
+                    D --> E[Filter Tasks Locally]
+                    
+                    A --> F[Category Filter]
+                    F --> G[GET /api/tasks?category=X]
+                    
+                    A --> H[Priority Filter]
+                    H --> I[GET /api/tasks?priority=X]
+                    
+                    A --> J[Show Completed Toggle]
+                    J --> K[GET /api/tasks?completed=true]
+                    
+                    C --> L[Task Actions]
+                    L --> M[Mark Complete/Incomplete]
+                    L --> N[Delete Task]
+                    L --> O[Edit Task]
+                    
+                    M --> P[PUT /api/tasks/:id/complete]
+                    N --> Q[DELETE /api/tasks/:id]
+                    O --> R[PUT /api/tasks/:id]
+                    
+                    A --> S[Add New Task]
+                    S --> T[POST /api/tasks]
+                    T --> U[Refresh Task List]
+                    
+                    P --> U
+                    Q --> U
+                    R --> U
+                    
+                    style A fill:#e3f2fd
+                    style B fill:#fff3e0
+                    style G fill:#fff3e0
+                    style I fill:#fff3e0
+                    style K fill:#fff3e0
+                    style P fill:#fff3e0
+                    style Q fill:#fff3e0
+                    style R fill:#fff3e0
+                    style T fill:#fff3e0
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="section-title">🔍 Explore Screen Workflow</h2>
+            <div class="mermaid">
+                graph TD
+                    A[Explore Screen Load] --> B[GET /api/users/discover]
+                    B --> C[Display User Cards]
+                    
+                    A --> D[Search Users]
+                    D --> E[GET /api/users/search?q=query]
+                    E --> F[Display Search Results]
+                    
+                    C --> G[User Profile Click]
+                    G --> H[GET /api/users/:id/profile]
+                    H --> I[Show User Details Modal]
+                    
+                    I --> J[Follow User Button]
+                    J --> K[POST /api/users/:id/follow]
+                    K --> L[Update Follow Status]
+                    
+                    C --> M[View User Tasks]
+                    M --> N[GET /api/users/:id/tasks/public]
+                    N --> O[Display Public Tasks]
+                    
+                    style A fill:#e3f2fd
+                    style B fill:#fff3e0
+                    style E fill:#fff3e0
+                    style H fill:#fff3e0
+                    style K fill:#fff3e0
+                    style N fill:#fff3e0
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="section-title">👤 Profile Screen Workflow</h2>
+            <div class="mermaid">
+                graph TD
+                    A[Profile Screen Load] --> B[GET /api/user/profile]
+                    B --> C[Display User Info]
+                    C --> D[Username: testuser]
+                    C --> E[Email: test@example.com]
+                    C --> F[Member Since: Date]
+                    
+                    A --> G[GET /api/user/badges]
+                    G --> H[Display Badges]
+                    H --> I[Early Bird Badge]
+                    H --> J[Streak Master Badge]
+                    H --> K[Task Crusher Badge]
+                    
+                    A --> L[GET /api/user/stats/detailed]
+                    L --> M[Display Statistics]
+                    M --> N[Total Tasks: 150]
+                    M --> O[Completed: 120]
+                    M --> P[Success Rate: 80%]
+                    
+                    A --> Q[Edit Profile Button]
+                    Q --> R[PUT /api/user/profile]
+                    R --> S[Update Profile Data]
+                    
+                    A --> T[Logout Button]
+                    T --> U[Clear JWT Token]
+                    U --> V[POST /api/auth/logout]
+                    V --> W[Redirect to Login]
+                    
+                    style A fill:#e3f2fd
+                    style B fill:#fff3e0
+                    style G fill:#fff3e0
+                    style L fill:#fff3e0
+                    style R fill:#fff3e0
+                    style U fill:#f3e5f5
+                    style V fill:#fff3e0
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="section-title">🎤 Voice Commands Workflow</h2>
+            <div class="mermaid">
+                graph TD
+                    A[Voice Button Click] --> B[Request Microphone Permission]
+                    B --> C{Permission Granted?}
+                    C -->|No| D[Show Permission Error]
+                    C -->|Yes| E[Initialize Speech Recognition]
+                    
+                    E --> F[Listen for Wake Word]
+                    F --> G{Heard 'Hey DoTogather'?}
+                    G -->|No| F
+                    G -->|Yes| H[Show Voice Active State]
+                    
+                    H --> I[Listen for Command]
+                    I --> J[Process Voice Input]
+                    J --> K{Command Type?}
+                    
+                    K -->|Add Task| L[Extract Task Details]
+                    K -->|Complete Task| M[Find Task by Name]
+                    K -->|Show Stats| N[Navigate to Stats]
+                    K -->|Open Profile| O[Navigate to Profile]
+                    
+                    L --> P[POST /api/tasks with voice data]
+                    M --> Q[PUT /api/tasks/:id/complete]
+                    N --> R[Display Stats Modal]
+                    O --> S[Navigate to Profile Tab]
+                    
+                    P --> T[Confirm Task Added]
+                    Q --> U[Confirm Task Completed]
+                    
+                    style A fill:#e3f2fd
+                    style E fill:#e8f5e8
+                    style F fill:#e8f5e8
+                    style H fill:#e8f5e8
+                    style I fill:#e8f5e8
+                    style P fill:#fff3e0
+                    style Q fill:#fff3e0
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="section-title">🗄️ Data Flow & Server Architecture</h2>
+            <div class="mermaid">
+                graph TD
+                    A[React Client] --> B[API Gateway]
+                    B --> C[Authentication Service]
+                    B --> D[Task Service]
+                    B --> E[User Service]
+                    B --> F[Statistics Service]
+                    
+                    C --> G[(Auth Database)]
+                    D --> H[(Tasks Database)]
+                    E --> I[(Users Database)]
+                    F --> J[(Analytics Database)]
+                    
+                    B --> K[Real-time WebSocket]
+                    K --> L[Live Updates]
+                    L --> M[Task Completion Notifications]
+                    L --> N[Streak Updates]
+                    L --> O[Badge Achievements]
+                    
+                    B --> P[External Services]
+                    P --> Q[Push Notifications]
+                    P --> R[Email Service]
+                    P --> S[Analytics Tracking]
+                    
+                    style A fill:#e3f2fd
+                    style B fill:#fff3e0
+                    style C fill:#fff3e0
+                    style D fill:#fff3e0
+                    style E fill:#fff3e0
+                    style F fill:#fff3e0
+                    style G fill:#f3e5f5
+                    style H fill:#f3e5f5
+                    style I fill:#f3e5f5
+                    style J fill:#f3e5f5
+                    style K fill:#e8f5e8
+                    style P fill:#e8f5e8
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>🎨 Legend</h3>
+            <div class="legend-item">
+                <div class="legend-color client"></div>
+                <span><strong>Client-Side Components</strong> - React components, UI interactions, local state</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color server"></div>
+                <span><strong>Server-Side APIs</strong> - REST endpoints, business logic, authentication</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color database"></div>
+                <span><strong>Database Operations</strong> - Data storage, retrieval, persistence</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color external"></div>
+                <span><strong>External Services</strong> - Third-party APIs, WebSockets, browser APIs</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h3>📋 Key Features Summary</h3>
+            <ul style="columns: 2; column-gap: 40px;">
+                <li><strong>Authentication:</strong> JWT-based login/logout</li>
+                <li><strong>Task Management:</strong> CRUD operations with real-time updates</li>
+                <li><strong>Voice Commands:</strong> Web Speech API integration</li>
+                <li><strong>Statistics:</strong> Real-time progress tracking</li>
+                <li><strong>Social Features:</strong> User discovery and following</li>
+                <li><strong>Gamification:</strong> Points, streaks, and badges</li>
+                <li><strong>Responsive Design:</strong> Mobile-first approach</li>
+                <li><strong>Real-time Updates:</strong> WebSocket connections</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
