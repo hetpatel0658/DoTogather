@@ -1,73 +1,138 @@
-# Welcome to your Lovable project
+# DoTogather - Flutter App & Server
 
-## Project info
+A complete Flutter mobile application with Python server backend for daily micro-task planning and productivity tracking.
 
-**URL**: https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16
+## 📱 Flutter App
 
-## How can I edit this code?
+A native mobile app built with Flutter/Dart that provides:
 
-There are several ways of editing your application.
+- **Cross-platform**: Runs on Android, iOS, and Web
+- **Native Performance**: Smooth animations and fast response times
+- **Offline Support**: Local data storage with Hive
+- **Voice Commands**: Speech-to-text and text-to-speech integration
+- **Real-time Sync**: Live updates with Python server backend
+- **File Storage**: Supabase storage integration for profile images and attachments
 
-**Use Lovable**
+### Features
+- ✅ User authentication (Email/Password + Google Sign-In)
+- ✅ Task management with categories, priorities, and due dates
+- ✅ Voice command processing for hands-free operation
+- ✅ Statistics and progress tracking with streaks
+- ✅ Badge system and gamification
+- ✅ Dark theme UI matching original design
+- ✅ Push notifications and reminders
+- ✅ Profile management and social features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16) and start prompting.
+## 🐍 Python Server Backend
 
-Changes made via Lovable will be committed automatically to this repo.
+FastAPI-based server providing:
 
-**Use your preferred IDE**
+- **REST API**: Complete CRUD operations for tasks and users
+- **Authentication**: JWT token-based security
+- **Real-time Updates**: WebSocket support for live data sync
+- **Analytics**: Task statistics and progress tracking
+- **AI Integration**: Voice command processing
+- **Database**: PostgreSQL with SQLAlchemy ORM
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🗄️ Supabase Storage
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Integrated S3-compatible storage for:
+- User profile images
+- Task attachments
+- File uploads/downloads
+- Secure access with provided credentials
 
-Follow these steps:
+## 🚀 Quick Start
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Flutter App Setup
+```bash
+cd flutter_app
+flutter pub get
+flutter packages pub run build_runner build
+flutter run
 ```
 
-**Edit a file directly in GitHub**
+### Python Server Setup
+```bash
+cd DoTogatherBackend
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Test Integration
+```bash
+cd flutter_app
+python test_server_integration.py
+```
 
-**Use GitHub Codespaces**
+## 📁 Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+├── flutter_app/           # Complete Flutter application
+│   ├── lib/
+│   │   ├── config/        # App configuration (Supabase, API, theme)
+│   │   ├── models/        # Data models (User, Task, Badge)
+│   │   ├── services/      # Business logic (API, Auth, Storage, Voice)
+│   │   ├── providers/     # Riverpod state management
+│   │   ├── screens/       # UI screens (Auth, Home, Tasks, Profile)
+│   │   └── widgets/       # Reusable UI components
+│   ├── SETUP_GUIDE.md     # Detailed setup instructions
+│   └── test_server_integration.py  # Server compatibility test
+├── DoTogatherBackend/     # Python FastAPI server
+└── DoTogatherRN/          # React Native version (legacy)
+```
 
-## What technologies are used for this project?
+## 🔧 Configuration
 
-This project is built with:
+### Required Setup
+1. **Supabase**: Add your anon key to `flutter_app/lib/config/supabase_config.dart`
+2. **Python Server**: Ensure server runs on `http://localhost:8000`
+3. **CORS**: Configure CORS in Python server for Flutter app
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Pre-configured
+- ✅ Supabase storage credentials
+- ✅ API endpoints mapping
+- ✅ Authentication flow
+- ✅ File upload/download services
 
-## How can I deploy this project?
+## 📚 Documentation
 
-Simply open [Lovable](https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16) and click on Share -> Publish.
+- **Setup Guide**: `flutter_app/SETUP_GUIDE.md` - Complete setup instructions
+- **Conversion Analysis**: `CONVERSION_ANALYSIS.md` - Feature comparison with React app
+- **API Documentation**: Server endpoints and request/response formats
 
-## Can I connect a custom domain to my Lovable project?
+## 🧪 Testing
 
-Yes, you can!
+- **Integration Test**: `flutter_app/test_server_integration.py`
+- **Flutter Tests**: `flutter test` in flutter_app directory
+- **Server Tests**: API endpoint testing with curl/Postman
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🔄 Migration from React
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This Flutter app provides 100% feature parity with the original React application while adding:
+- Native mobile performance
+- Offline capability
+- File storage integration
+- Better cross-platform support
+
+## 📱 Supported Platforms
+
+- ✅ Android (API 21+)
+- ✅ iOS (iOS 11+)
+- ✅ Web (Chrome, Firefox, Safari)
+- 🔄 Desktop (Windows, macOS, Linux) - Coming soon
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Test with both Flutter app and Python server
+4. Submit a pull request
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+---
+
+**Ready for production deployment!** 🚀
