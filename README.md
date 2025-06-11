@@ -1,73 +1,125 @@
-# Welcome to your Lovable project
+# DoTogather - Flutter & Python Backend
 
-## Project info
+A comprehensive daily micro-task planner with Flutter mobile app and Python FastAPI backend, integrated with Supabase for authentication and storage.
 
-**URL**: https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16
+## 🏗️ Architecture
 
-## How can I edit this code?
+This repository contains two main components:
 
-There are several ways of editing your application.
+### 📱 Flutter Mobile App (`flutter_app/`)
+- **Framework**: Flutter with Dart
+- **State Management**: Riverpod
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage (S3-compatible)
+- **Features**: Task management, voice commands, real-time updates, notifications
 
-**Use Lovable**
+### 🐍 Python Backend (`DoTogatherBackend/`)
+- **Framework**: FastAPI
+- **Database**: PostgreSQL via Supabase
+- **Authentication**: JWT tokens
+- **Features**: REST API, WebSocket support, AI integration, email services
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16) and start prompting.
+## ✨ Features
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Task Management**: Create, organize, and track daily micro-tasks
+- **Voice Commands**: Speech-to-text task creation and management
+- **Real-time Updates**: Live synchronization across devices
+- **Progress Tracking**: Visual progress indicators and streak counters
+- **Badge System**: Achievement system for motivation
+- **Social Features**: Explore public profiles and tasks
+- **Smart Notifications**: Task reminders and achievement alerts
+- **Cross-Platform**: Flutter app for iOS and Android
 
-**Use your preferred IDE**
+## 🚀 Quick Start
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Flutter SDK (>=3.0.0)
+- Python 3.8+
+- Supabase account
+- PostgreSQL (via Supabase)
 
-Follow these steps:
+### 1. Backend Setup
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+cd DoTogatherBackend
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-**Edit a file directly in GitHub**
+### 2. Flutter App Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+cd flutter_app
+flutter pub get
+flutter run
+```
 
-**Use GitHub Codespaces**
+## 🔧 Configuration
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Supabase Integration
 
-## What technologies are used for this project?
+The app is configured with Supabase:
+- **URL**: `https://yqociffktetsduzlojqw.supabase.co`
+- **Storage Endpoint**: `https://yqociffktetsduzlojqw.supabase.co/storage/v1/s3`
+- **Region**: `ap-south-1`
 
-This project is built with:
+Update the `anonKey` in `flutter_app/lib/config/supabase_config.dart` with your actual Supabase anon key.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📁 Project Structure
 
-## How can I deploy this project?
+```
+DoTogather/
+├── DoTogatherBackend/          # Python FastAPI backend
+├── flutter_app/               # Flutter mobile application
+└── README.md                  # This file
+```
 
-Simply open [Lovable](https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16) and click on Share -> Publish.
+## 🔌 API Integration
 
-## Can I connect a custom domain to my Lovable project?
+The Flutter app connects to the Python backend via:
+- **REST API**: `http://localhost:8000/api`
+- **WebSocket**: `ws://localhost:8000/ws`
 
-Yes, you can!
+All API endpoints are automatically authenticated using Supabase tokens.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🎯 Key Features Implemented
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Authentication
+- ✅ Email/password registration and login
+- ✅ Google Sign-In integration
+- ✅ Supabase Auth integration
+- ✅ Automatic token management
+
+### Task Management
+- ✅ CRUD operations for tasks
+- ✅ Categories, priorities, and due dates
+- ✅ Task completion tracking
+- ✅ Drag-and-drop reordering
+
+### Voice Features
+- ✅ Speech-to-text task creation
+- ✅ Voice command processing
+- ✅ Text-to-speech feedback
+
+### Real-time Features
+- ✅ Live task updates via WebSocket
+- ✅ Cross-device synchronization
+- ✅ Real-time statistics
+
+### Notifications
+- ✅ Task reminder notifications
+- ✅ Achievement notifications
+- ✅ Streak milestone alerts
+
+## 📱 Platform Support
+
+- ✅ Android
+- ✅ iOS
+- ✅ Web (with limitations on voice features)
+
+## 🔗 Links
+
+- [Flutter App Documentation](flutter_app/README.md)
+- [Backend API Documentation](DoTogatherBackend/README.md)
+- [Conversion Analysis](CONVERSION_ANALYSIS.md)
