@@ -8,7 +8,7 @@ import rateLimit from 'express-rate-limit';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-import connectDB from './config/database.js';
+import initializeStorage, { testConnection } from './config/database.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import taskRoutes from './routes/tasks.js';
@@ -32,8 +32,29 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB();
+// Initialize Supabase storage
+const initializeApp = async () => {
+  try {
+    console.log('🔄 Initializing DoTogather API...');
+    
+    // Test storage connection
+    const isConnected = await testConnection();
+    if (!isConnected) {
+      throw new Error('Failed to connect to Supabase storage');
+    }
+    
+    // Initialize storage structure
+    await initializeStorage();
+    
+    console.log('✅ DoTogather API initialized successfully');
+  } catch (error) {
+    console.error('❌ Failed to initialize API:', error.message);
+    process.exit(1);
+  }
+};
+
+// Initialize the app
+initializeApp();
 
 // Rate limiting
 const limiter = rateLimit({
