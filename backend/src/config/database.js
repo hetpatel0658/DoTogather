@@ -1,16 +1,28 @@
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Supabase configuration
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseServiceKey) {
+if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase configuration. Please check your environment variables.');
 }
 
+// Use service role key if available and valid, otherwise use anon key
+const supabaseKey = (supabaseServiceKey && supabaseServiceKey.startsWith('eyJ')) 
+  ? supabaseServiceKey 
+  : supabaseAnonKey;
+
+console.log(`🔑 Using ${supabaseKey === supabaseServiceKey ? 'service role' : 'anon'} key for Supabase`);
+
 // Create Supabase client for storage operations
-export const supabaseStorage = createClient(supabaseUrl, supabaseServiceKey, {
+export const supabaseStorage = createClient(supabaseUrl, supabaseKey, {
   auth: {
     autoRefreshToken: false,
     persistSession: false

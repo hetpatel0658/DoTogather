@@ -1,7 +1,7 @@
 import express from 'express';
 import { query, validationResult } from 'express-validator';
-import Task from '../models/Task.js';
-import User from '../models/User.js';
+import Task from '../models/TaskStorage.js';
+import User from '../models/UserStorage.js';
 import { protect, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();

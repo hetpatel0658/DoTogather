@@ -1,180 +1,146 @@
-# DoTogather - Daily Micro-Task Planner
+# DoTogather
 
-A modern, full-stack task management application built with React and Node.js, featuring AI-powered task suggestions, gamification, and real-time collaboration.
+A collaborative task management application built with React and Node.js, featuring real-time collaboration and Supabase Storage integration.
 
 ## 🚀 Features
 
-### Core Features
-- **Task Management**: Create, edit, delete, and organize tasks with priorities and categories
-- **Gamification**: Points, levels, streaks, and badges to motivate productivity
-- **AI Integration**: Smart task suggestions, analysis, and productivity tips
-- **Real-time Updates**: Live task updates using Socket.IO
-- **User Authentication**: Secure registration, login, and email verification
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **User Authentication**: Secure registration and login with JWT
+- **Task Management**: Create, edit, delete, and organize tasks
+- **Real-time Collaboration**: Live updates using Socket.IO
+- **Gamification**: Points, levels, streaks, and badges
+- **File Storage**: Supabase Storage for attachments and media
+- **Responsive Design**: Works on desktop and mobile
+- **Dark/Light Theme**: User preference support
 
-### Advanced Features
-- **Task Analytics**: Detailed statistics and productivity insights
-- **Subtasks**: Break down complex tasks into manageable steps
-- **Due Dates & Reminders**: Email notifications for upcoming tasks
-- **Task Templates**: Pre-built task templates for common activities
-- **Leaderboard**: Compare progress with other users
+## 🏗️ Tech Stack
 
-## 🏗️ Architecture
+### Frontend (`/frontend`)
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **shadcn/ui** components
+- **Vite** for build tooling
+- **Socket.IO Client** for real-time features
 
-### Frontend (React + TypeScript)
-- **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite for fast development and building
-- **UI Library**: shadcn/ui components with Radix UI primitives
-- **Styling**: Tailwind CSS for responsive design
-- **State Management**: React Context API with custom hooks
-- **Routing**: React Router DOM for navigation
-- **Animations**: Framer Motion for smooth interactions
-
-### Backend (Node.js + Express)
-- **Runtime**: Node.js with Express.js framework
-- **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT tokens with bcrypt password hashing
-- **Email Service**: Nodemailer with SendGrid integration
-- **AI Integration**: OpenAI API for intelligent features
-- **Real-time**: Socket.IO for live updates
-- **Security**: Helmet, CORS, rate limiting
+### Backend (`/backend`)
+- **Node.js** with Express.js
+- **Supabase Storage** for data persistence
+- **JWT** for authentication
+- **Socket.IO** for real-time communication
+- **Nodemailer** for email notifications
 
 ## 📁 Project Structure
 
 ```
 DoTogather/
-├── webapp/                 # React frontend application
+├── backend/           # Node.js/Express API server
 │   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── services/      # API service layer
-│   │   ├── context/       # React context providers
-│   │   ├── types/         # TypeScript type definitions
-│   │   └── utils/         # Utility functions
-│   ├── public/            # Static assets
-│   └── package.json       # Frontend dependencies
-│
-├── server/                # Node.js backend application
+│   │   ├── config/    # Database and app configuration
+│   │   ├── models/    # Supabase Storage models
+│   │   ├── routes/    # API route handlers
+│   │   ├── middleware/# Authentication and validation
+│   │   └── services/  # Email and external services
+│   └── package.json
+├── frontend/          # React/TypeScript web app
 │   ├── src/
-│   │   ├── models/        # Database models
-│   │   ├── routes/        # API route definitions
-│   │   ├── middleware/    # Custom middleware
-│   │   ├── services/      # Business logic services
-│   │   ├── utils/         # Utility functions
-│   │   └── config/        # Configuration files
-│   └── package.json       # Backend dependencies
-│
-└── README.md              # This file
+│   │   ├── components/# Reusable UI components
+│   │   ├── pages/     # Page components
+│   │   ├── hooks/     # Custom React hooks
+│   │   └── context/   # State management
+│   └── package.json
+└── README.md
 ```
 
-## 🛠️ Installation & Setup
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js (v18 or higher)
-- MongoDB (local or cloud instance)
-- Git
+- Supabase account and project
+- npm or yarn
 
-### 1. Clone the Repository
+### Installation
+
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/hetpatel0658/DoTogather.git
 cd DoTogather
 ```
 
-### 2. Backend Setup
+2. **Set up the backend:**
 ```bash
-cd server
+cd backend
 npm install
-
-# Copy environment file and configure
 cp .env.example .env
-# Edit .env with your configuration
+# Edit .env with your Supabase credentials
+npm start
+```
 
-# Start the server
+3. **Set up the frontend:**
+```bash
+cd ../frontend
+npm install
+cp .env.example .env.local
+# Edit .env.local with your backend URL
 npm run dev
 ```
 
-### 3. Frontend Setup
-```bash
-cd webapp
-npm install
+### Environment Variables
 
-# Copy environment file and configure
-cp .env.example .env
-# Edit .env with your configuration
-
-# Start the development server
-npm run dev
-```
-
-### 4. Environment Configuration
-
-#### Backend (.env)
+**Backend (.env):**
 ```env
-# Server Configuration
 PORT=5000
 NODE_ENV=development
-
-# Database
-MONGODB_URI=mongodb://localhost:27017/dotogather
-
-# JWT Configuration
-JWT_SECRET=your-super-secret-jwt-key-here
-JWT_EXPIRE=7d
-
-# Email Configuration (SendGrid)
-SENDGRID_API_KEY=your-sendgrid-api-key
-FROM_EMAIL=noreply@dotogather.com
-
-# OpenAI Configuration
-OPENAI_API_KEY=your-openai-api-key
-
-# CORS Configuration
-FRONTEND_URL=http://localhost:3000
+JWT_SECRET=your_jwt_secret
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-#### Frontend (.env)
+**Frontend (.env.local):**
 ```env
-# API Configuration
-VITE_API_URL=http://localhost:5000/api
-
-# App Configuration
-VITE_APP_NAME=DoTogather
-VITE_APP_VERSION=1.0.0
+VITE_API_URL=http://localhost:5000
+VITE_SOCKET_URL=http://localhost:5000
 ```
-
-## 🚀 Quick Start
-
-1. **Start MongoDB** (if running locally)
-2. **Start the backend server**:
-   ```bash
-   cd server && npm run dev
-   ```
-3. **Start the frontend**:
-   ```bash
-   cd webapp && npm run dev
-   ```
-4. **Open your browser** to `http://localhost:3000`
 
 ## 📚 API Documentation
 
-### Authentication Endpoints
+### Authentication
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - User login
-- `POST /api/auth/verify-email` - Verify email address
-- `GET /api/auth/me` - Get current user info
+- `GET /api/auth/me` - Get current user
+- `POST /api/auth/verify` - Verify email
+- `POST /api/auth/forgot-password` - Request password reset
 
-### Task Endpoints
+### Tasks
 - `GET /api/tasks` - Get user tasks
 - `POST /api/tasks` - Create new task
 - `PUT /api/tasks/:id` - Update task
 - `DELETE /api/tasks/:id` - Delete task
-- `GET /api/tasks/stats` - Get task statistics
+- `POST /api/tasks/:id/complete` - Mark task complete
 
-### AI Endpoints
-- `POST /api/ai/suggest-tasks` - Get AI task suggestions
-- `POST /api/ai/analyze-task` - Analyze task description
-- `GET /api/ai/productivity-tips` - Get productivity tips
+### Users
+- `GET /api/users/profile` - Get user profile
+- `PUT /api/users/profile` - Update profile
+- `GET /api/users/stats` - Get user statistics
+
+## 🔧 Development
+
+### Running Tests
+```bash
+# Backend tests
+cd backend && npm test
+
+# Frontend tests
+cd frontend && npm test
+```
+
+### Building for Production
+```bash
+# Build frontend
+cd frontend && npm run build
+
+# Start production server
+cd backend && npm run start:prod
+```
 
 ## 🤝 Contributing
 
@@ -184,70 +150,30 @@ VITE_APP_VERSION=1.0.0
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Supabase](https://supabase.com/) for the backend infrastructure
+- [shadcn/ui](https://ui.shadcn.com/) for the UI components
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+
 ---
 
-**Happy Task Managing! 🎯**
+## Programming Language
 
-**Use Lovable**
+This application is built using **JavaScript/TypeScript**:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16) and start prompting.
+- **Backend**: Node.js (JavaScript) with Express.js framework
+- **Frontend**: React with TypeScript for type safety
+- **Database**: Supabase Storage with JavaScript SDK
+- **Build Tools**: Vite (JavaScript/TypeScript)
+- **Package Management**: npm (Node Package Manager)
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/0057f68e-29a4-4e1e-8b19-25d70e48dc16) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+The project follows modern JavaScript/TypeScript development practices with:
+- ES6+ features and modules
+- TypeScript for static type checking
+- Async/await for asynchronous operations
+- Modern React hooks and functional components

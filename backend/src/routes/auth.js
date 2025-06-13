@@ -2,7 +2,7 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import User from '../models/User.js';
+import User from '../models/UserStorage.js';
 import { protect } from '../middleware/auth.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../services/emailService.js';
 
@@ -36,7 +36,7 @@ router.post('/register', [
     const { email, password, username } = req.body;
 
     // Check if user exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findByEmail(email);
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -46,7 +46,7 @@ router.post('/register', [
 
     // Check username if provided
     if (username) {
-      const existingUsername = await User.findOne({ username });
+      const existingUsername = await User.findByUsername(username);
       if (existingUsername) {
         return res.status(400).json({
           success: false,
@@ -59,12 +59,13 @@ router.post('/register', [
     const verificationToken = crypto.randomBytes(32).toString('hex');
 
     // Create user
-    const user = await User.create({
+    const user = new User({
       email,
       password,
       username,
       verificationToken
     });
+    await user.save();
 
     // Send verification email
     try {
@@ -79,7 +80,7 @@ router.post('/register', [
       message: 'User registered successfully. Please check your email for verification.',
       data: {
         user: {
-          id: user._id,
+          id: user.id,
           email: user.email,
           username: user.username,
           isVerified: user.isVerified
@@ -115,7 +116,7 @@ router.post('/login', [
     const { email, password } = req.body;
 
     // Check for user
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findByEmail(email);
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -145,7 +146,7 @@ router.post('/login', [
     await user.save();
 
     // Generate token
-    const token = generateToken(user._id);
+    const token = generateToken(user.id);
 
     res.json({
       success: true,
@@ -153,7 +154,7 @@ router.post('/login', [
       data: {
         token,
         user: {
-          id: user._id,
+          id: user.id,
           email: user.email,
           username: user.username,
           isVerified: user.isVerified,
@@ -181,7 +182,7 @@ router.post('/verify-email', [
   try {
     const { token } = req.body;
 
-    const user = await User.findOne({ verificationToken: token });
+    const user = await User.findByVerificationToken(token);
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -215,7 +216,7 @@ router.post('/forgot-password', [
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findByEmail(email);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -268,10 +269,7 @@ router.post('/reset-password', [
   try {
     const { token, password } = req.body;
 
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }
-    });
+    const user = await User.findByResetToken(token);
 
     if (!user) {
       return res.status(400).json({
@@ -303,13 +301,13 @@ router.post('/reset-password', [
 // @access  Private
 router.get('/me', protect, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).populate('badges');
+    const user = await User.findById(req.user.id);
     
     res.json({
       success: true,
       data: {
         user: {
-          id: user._id,
+          id: user.id,
           email: user.email,
           username: user.username,
           isVerified: user.isVerified,
@@ -344,7 +342,7 @@ router.post('/resend-verification', [
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findByEmail(email);
     if (!user) {
       return res.status(404).json({
         success: false,
